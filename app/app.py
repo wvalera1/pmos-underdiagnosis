@@ -12,7 +12,7 @@ st.set_page_config(
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("pmos_predictions_all_counties.csv", dtype={"FIPS": str})
+    df = pd.read_csv("data/predictions/pmos_predictions_all_counties.csv", dtype={"FIPS": str})
     df["RISK_LABEL"] = df["PREDICTED_RISK"].map({1: "High Risk", 0: "Low Risk"})
     return df
 
@@ -103,6 +103,7 @@ def build_map(_geojson, _df, map_view):
     )
 
     return fig
+
 # --- Load ---
 df = load_data()
 geojson = load_geojson()
