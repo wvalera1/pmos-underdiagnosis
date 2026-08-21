@@ -95,7 +95,7 @@ tab1, tab2, tab3, tab4 = st.tabs(
     ["Approach", "Key Results", "Fairness & Bias", "Limitations & References"]
 )
 
-st.divder()
+st.divider()
 
 with tab1:
     st.markdown("""
