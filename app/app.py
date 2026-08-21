@@ -64,10 +64,38 @@ st.markdown(
 
 st.divider()
 
+# --- Search ---
+st.subheader("Look up your county")
+search = st.text_input("Enter a county name (e.g. 'Barbour County')", "")
+if search:
+    results = df[df["COUNTY"].str.contains(search, case=False, na=False)]
+    if len(results) == 0:
+        st.warning("No county found. Try a different spelling.")
+    else:
+        for _, row in results.iterrows():
+            icon = "🔴" if row["PREDICTED_RISK"] == 1 else "🟢"
+            st.markdown(
+                f"**{row['label']}** — {icon} **{row['RISK_LABEL']}** "
+                f"(Risk Score: {row['RISK_PROBABILITY']:.2f})"
+            )
+
+st.divider()
+
+# --- Map ---
+st.subheader("County Risk Map")
+st.plotly_chart(build_map(geojson, df), use_container_width=True)
+
+st.caption(
+    "Data: CDC Social Vulnerability Index 2022 · CDC PLACES 2025 · "
+    "NCHS Urban-Rural Classification 2023 · AI4ALL Ignite 2026, Group 14B"
+)
+
 # --- Info Tabs ---
 tab1, tab2, tab3, tab4 = st.tabs(
     ["Approach", "Key Results", "Fairness & Bias", "Limitations & References"]
 )
+
+st.divder()
 
 with tab1:
     st.markdown("""
@@ -187,31 +215,3 @@ with tab4:
     - Gadhoumi et al. (2026). Strategies for mitigating AI bias in healthcare. *JAMIA Open*, 9(3).
     - Sung et al. (2026). PCOS: An Update on Diagnosis and Management. *Cleveland Clinic Journal of Medicine*, 93(3).
     """)
-
-st.divider()
-
-# --- Search ---
-st.subheader("Look up your county")
-search = st.text_input("Enter a county name (e.g. 'Barbour County')", "")
-if search:
-    results = df[df["COUNTY"].str.contains(search, case=False, na=False)]
-    if len(results) == 0:
-        st.warning("No county found. Try a different spelling.")
-    else:
-        for _, row in results.iterrows():
-            icon = "🔴" if row["PREDICTED_RISK"] == 1 else "🟢"
-            st.markdown(
-                f"**{row['label']}** — {icon} **{row['RISK_LABEL']}** "
-                f"(Risk Score: {row['RISK_PROBABILITY']:.2f})"
-            )
-
-st.divider()
-
-# --- Map ---
-st.subheader("County Risk Map")
-st.plotly_chart(build_map(geojson, df), use_container_width=True)
-
-st.caption(
-    "Data: CDC Social Vulnerability Index 2022 · CDC PLACES 2025 · "
-    "NCHS Urban-Rural Classification 2023 · AI4ALL Ignite 2026, Group 14B"
-)
