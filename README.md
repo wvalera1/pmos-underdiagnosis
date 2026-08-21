@@ -1,12 +1,22 @@
 # Predicting County-Level PMOS Underdiagnosis Risk in the US
-AI4ALL Ignite 2026 Portfolio Project | Group 14B  
-Irene Zhang, Joyce Xu, Walter Valera, Vaishali Allibada, Andy Romero
+AI4ALL Ignite 2026 Portfolio Project
+
+**By Group 14B**: Irene Zhang, Joyce Xu, Walter Valera, Vaishali Allibada, Andy Romero
 
 A machine learning pipeline that predicts US counties at high risk of PMOS (formerly PCOS) underdiagnosis, using public health datasets encompassing social vulnerability, health access, health outcome, and geography.  
 
 Valuable predictive model at the local, regional, and national level to raise awareness and deploy interventions to prevent further healthcare gaps. 
 
-## Table of Contents - to be added
+## Table of Contents
+1. [Background and Problem Statement](#background-and-problem-statement)
+2. [Research Question](#research-question)
+3. [Approach](#approach)
+4. [Key Results](#key-results)
+5. [Fairness & Bias Audit](#fairness-&-bias-audit)
+6. [Impact & Use](#impact-&-use)
+7. [Limitations](#limitations)
+8. [Data Sources & References](#data-sources-&-references)
+9. [Technologies Used](#technologies-used)
 
 ## Background and Problem Statement
 Polyendocrine Metabolic Ovarian Syndrome (PMOS), previously known as Polycystic Ovarian Syndrome (PCOS), is the most common endocrine disorder in reproductive-age women, affecting approximately 170 million women worldwide at a cost of around $8B to the the US healthcare system in 2020 (WHO, 2026 and Silva et al., 2024). It is a complex disorder that affects reproductive, metabolic, dermatological, and psychological health. While no cure exists, early diagnosis and intervention can significantly reduce long-term risk of type-2 diabetes, insulin resistance, cardiovascular disease and infertility. 
