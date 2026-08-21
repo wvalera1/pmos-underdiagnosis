@@ -57,11 +57,29 @@ Validation included:
 * A subgroup fairness audit and cross-year data drift check with PLACES 2024 vs. 2025 (see colab)
 
 ## Key Results 
-1. Ran 3 National Datasets backed by research to identify key features that contribute to PMOS underdiagnosis.
-2. Target engineered a risk predictor variable.
-3. Identified PMOS underdiagnosis risk for all 3,144 U.S. Counties
+On the held-out test set, XGBoost achieved the best balance of precision and recall for the high-risk class:
+
+| Model | Precision | Recall | F1 Score | Accuracy |
+|---|---:|---:|---:|---:|
+| Random Forest | 81% | 72% | 76% | 90% |
+| Logistic Regression | 65% | 86% | 74% | 87% |
+| XGBoost | 79% | 81% | **80%** | **91%** |
+
+Logistic Regression identified the largest share of proxy-positive counties (86% recall), but its lower precision produced more false alerts. Random Forest had the highest precision, but missed more high-risk counties. XGBoost provided the most balanced result, with the highest F1 score (80%) and accuracy (91%).
+
+The model produces county-level risk estimates to support future research, targeted outreach, and public-health planning. It should not be used to diagnose PMOS, determine an individual’s care, or treat a predicted hotspot as confirmed underdiagnosis.
 
 ## Fairness & Bias Audit
+
+Because county-level health and survey data can reflect unequal access to care and data collection, we conducted a **false-negative rate (FNR) audit** on Random Forest predictions from the held-out test set. FNR measures the percentage of counties labeled high risk that the model failed to flag. Counties were split into lower and higher groups using the national median for each demographic measure.
+
+| Group Split | Lower Group FNR | Higher Group FNR |
+|---|---:|---:|
+| Minority population | 86.7% | 21.0% |
+| Black population | 30.2% | 27.5% |
+| Poverty rate | 77.8% | 24.8% |
+
+The audit found substantial FNR differences for the minority-population and poverty-rate splits: in this test set, the model missed more proxy-positive counties in the lower-minority and lower-poverty groups. FNRs for the Black-population split were more similar. These results identify uneven error patterns that warrant continued investigation; they do not establish that demographic characteristics cause the model’s errors or that any county’s true PMOS burden is known.
 
 ## Impact & Use
 **National-Scale Approach**
