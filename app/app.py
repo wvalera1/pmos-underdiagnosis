@@ -98,6 +98,14 @@ def build_map(_geojson, _df, map_view):
         },
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
+        geo=dict(
+            bgcolor="rgba(0,0,0,0)",
+            lakecolor="rgba(0,0,0,0)",
+            landcolor="rgba(0,0,0,0)",
+            showland=True,
+            showlakes=True,
+            showcoastlines=False
+        ),
         height=600
     )
 
