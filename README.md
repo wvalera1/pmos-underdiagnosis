@@ -1,3 +1,5 @@
+<img width="2334" height="1222" alt="image" src="https://github.com/user-attachments/assets/e9d88371-08dc-41bb-aa04-3f50e2038be3" /> 
+
 # Predicting County-Level PMOS Underdiagnosis Risk in the US
 AI4ALL Ignite 2026 Portfolio Project
 
