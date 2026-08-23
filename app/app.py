@@ -21,29 +21,86 @@ def load_geojson():
         return json.load(r)
 
 @st.cache_data
-def build_map(_geojson, _df):
-    fig = px.choropleth(
-        _df,
-        geojson=_geojson,
-        locations="FIPS",
-        color="RISK_LABEL",
-        color_discrete_map={"High Risk": "#c0392b", "Low Risk": "#aed6f1"},
-        scope="usa",
-        hover_name="label",
-        hover_data={
-            "FIPS": True,
-            "RISK_PROBABILITY": ":.2f",
-            "RISK_LABEL": True,
-            "PREDICTED_RISK": False,
-        },
-        labels={
-            "RISK_PROBABILITY": "Risk Score",
-            "RISK_LABEL": "Classification",
-            "FIPS": "FIPS Code"
-        },
-        title="Predicted PMOS Underdiagnosis Risk by US County"
+def build_map(_geojson, _df, map_view):
+    if map_view == "Risk Classification":
+        fig = px.choropleth(
+            _df,
+            geojson=_geojson,
+            locations="FIPS",
+            color="RISK_LABEL",
+            color_discrete_map={
+                "High Risk": "#c0392b",
+                "Low Risk": "#5DADE2"
+            },
+            scope="usa",
+            hover_name="label",
+            hover_data={
+                "FIPS": True,
+                "RISK_PROBABILITY": ":.2f",
+                "RISK_LABEL": True,
+                "PREDICTED_RISK": False,
+            },
+            labels={
+                "RISK_PROBABILITY": "Risk Score",
+                "RISK_LABEL": "Classification",
+                "FIPS": "FIPS Code"
+            }
+        )
+
+        fig.update_layout(
+            legend_title_text="Risk Classification"
+        )
+
+    else:
+        fig = px.choropleth(
+            _df,
+            geojson=_geojson,
+            locations="FIPS",
+            color="RISK_PROBABILITY",
+            range_color=(0, 1),
+            color_continuous_scale=[
+                "#D6EAF8",  # Very low risk
+                "#85C1E9",
+                "#3498DB",
+                "#F1948A",
+                "#C0392B"   # Very high risk
+            ],
+            scope="usa",
+            hover_name="label",
+            hover_data={
+                "FIPS": True,
+                "RISK_PROBABILITY": ":.2f",
+                "RISK_LABEL": True,
+                "PREDICTED_RISK": False,
+            },
+            labels={
+                "RISK_PROBABILITY": "Predicted Risk",
+                "FIPS": "FIPS Code"
+            }
+        )
+
+        fig.update_layout(
+            coloraxis_colorbar=dict(
+                title="Risk Probability"
+            )
+        )
+
+    fig.update_traces(
+        marker_line_color="white",
+        marker_line_width=0.35
     )
-    fig.update_layout(legend_title_text="Risk Classification", height=600)
+
+    fig.update_layout(
+        title={
+            "text": "Predicted PMOS Underdiagnosis Risk by US County",
+            "x": 0.5,
+            "xanchor": "center"
+        },
+        paper_bgcolor="white",
+        plot_bgcolor="white",
+        height=600
+    )
+
     return fig
 
 # --- Load ---
@@ -83,11 +140,18 @@ st.divider()
 
 # --- Map ---
 st.subheader("County Risk Map")
-st.plotly_chart(build_map(geojson, df), use_container_width=True)
-
+map_view = st.radio(
+    "Map View",
+    ["Risk Classification", "Risk Probability Heat Map"],
+    horizontal=True
+)
+st.plotly_chart(
+    build_map(geojson, df, map_view),
+    use_container_width=True
+)
 st.caption(
     "Data: CDC Social Vulnerability Index 2022 · CDC PLACES 2025 · "
-    "NCHS Urban-Rural Classification 2023 · AI4ALL Ignite 2026, Group 14B"
+    "NCHS Urban-Rural Classification 2023"
 )
 
 # --- Info Tabs ---
