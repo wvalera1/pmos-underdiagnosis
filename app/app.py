@@ -96,8 +96,8 @@ def build_map(_geojson, _df, map_view):
             "x": 0.5,
             "xanchor": "center"
         },
-        paper_bgcolor="white",
-        plot_bgcolor="white",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
         height=600
     )
 
